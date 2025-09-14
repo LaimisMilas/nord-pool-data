@@ -1,0 +1,18 @@
+{
+  "name": "nord-pool-data",
+  "version": "0.1.0",
+  "description": "Fetch 24h-ahead electricity prices for Lithuania (ENTSO-E A44 Day-Ahead).",
+  "type": "module",
+  "engines": { "node": ">=18.0.0" },
+  "scripts": {
+    "tomorrow": "node src/index.js tomorrow --zone LT --format json",
+    "next24h": "node src/index.js next24h --zone LT --format json",
+    "csv:tomorrow": "node src/index.js tomorrow --zone LT --format csv"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fast-xml-parser": "^4.5.0",
+    "luxon": "^3.5.0",
+    "yargs": "^17.7.2"
+  }
+}
