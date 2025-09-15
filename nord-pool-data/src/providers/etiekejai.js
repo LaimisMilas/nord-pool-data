@@ -24,7 +24,7 @@ function normalize(js, tz = "Europe/Vilnius") {
   const arr = Array.isArray(js) ? js : (Array.isArray(js?.data) ? js.data : []);
   const out = [];
   for (const item of arr) {
-    let ts = item.time ?? item.timestamp ?? item.ts ?? item.date;
+    let ts = item.time ?? item.timestamp ?? item.ts ?? item.date ?? item.at;
     if (ts == null) { console.warn("Etiekėjai: missing timestamp", item); continue; }
     if (typeof ts === "string") {
       if (/^\d+$/.test(ts)) ts = Number(ts);
