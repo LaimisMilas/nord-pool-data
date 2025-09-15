@@ -29,20 +29,30 @@ export function normalizeA44ToSeries(jsDoc, { eic, tz = "Europe/Vilnius" }) {
       const bucketEnd = plusResolution(bucketStart, resolution);
       const eurMWh = Number(p["price.amount"]);
       out.push({
-        startUTC: bucketStart.toISO(),
-        endUTC: bucketEnd.toISO(),
-        startLocal: bucketStart.setZone(tz).toISO(),
-        endLocal: bucketEnd.setZone(tz).toISO(),
+        start: bucketStart.setZone(tz).toISO(),
+        end: bucketEnd.setZone(tz).toISO(),
         value: eurMWh / 1000 // EUR/kWh
       });
     }
   }
 
-  out.sort((a, b) => a.startUTC.localeCompare(b.startUTC));
-  return { zone: "LT", eic, currency, resolution, unit: "EUR/kWh", fromUTC: fromUTC?.toISO(), toUTC: toUTC?.toISO(), prices: out };
+  out.sort((a, b) => a.start.localeCompare(b.start));
+  return {
+    zone: "LT",
+    eic,
+    currency,
+    resolution,
+    unit: "EUR/kWh",
+    from: fromUTC?.setZone(tz).toISO(),
+    to: toUTC?.setZone(tz).toISO(),
+    prices: out
+  };
 }
 
 export function sliceRolling24h(seriesDay1, seriesDay2, sliceFromUtc, sliceToUtc) {
   const merged = [...(seriesDay1?.prices ?? []), ...(seriesDay2?.prices ?? [])];
-  return merged.filter(p => p.startUTC >= sliceFromUtc.toISO() && p.startUTC < sliceToUtc.toISO());
+  return merged.filter(p => {
+    const startUtc = DateTime.fromISO(p.start).toUTC();
+    return startUtc >= sliceFromUtc && startUtc < sliceToUtc;
+  });
 }

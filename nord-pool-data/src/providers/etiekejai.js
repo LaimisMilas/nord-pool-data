@@ -45,21 +45,19 @@ function normalize(js, tz = "Europe/Vilnius") {
     const startLocal = DateTime.fromMillis(Number(ts), { zone: tz }).startOf("hour");
     const endLocal = startLocal.plus({ hours: 1 });
     out.push({
-      startUTC: startLocal.toUTC().toISO(),
-      endUTC: endLocal.toUTC().toISO(),
-      startLocal: startLocal.toISO(),
-      endLocal: endLocal.toISO(),
+      start: startLocal.toISO(),
+      end: endLocal.toISO(),
       value: val
     });
   }
-  out.sort((a, b) => a.startUTC.localeCompare(b.startUTC));
+  out.sort((a, b) => a.start.localeCompare(b.start));
   if (!out.length) return null;
   return {
     zone: "LT",
     unit: "EUR/kWh",
     resolution: "PT60M",
-    fromUTC: out[0].startUTC,
-    toUTC: out[out.length - 1].endUTC,
+    from: out[0].start,
+    to: out[out.length - 1].end,
     prices: out
   };
 }

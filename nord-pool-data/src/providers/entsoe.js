@@ -41,8 +41,8 @@ export async function fetchRolling24h({ eic, token }) {
     eic,
     unit: "EUR/kWh",
     resolution: (s1?.resolution || s2?.resolution || "PT60M"),
-    fromUTC: sliceFromUtc.toISO(),
-    toUTC: sliceToUtc.toISO(),
+    from: sliceFromUtc.setZone("Europe/Vilnius").toISO(),
+    to: sliceToUtc.setZone("Europe/Vilnius").toISO(),
     prices
   };
 }

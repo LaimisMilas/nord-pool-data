@@ -47,8 +47,8 @@ if (src === "entsoe") {
 }
 
 function toCSV(prices) {
-  const header = "startLocal,endLocal,value_EUR_per_kWh";
-  const rows = prices.map(p => `${p.startLocal},${p.endLocal},${p.value}`);
+  const header = "start,end,value_EUR_per_kWh";
+  const rows = prices.map(p => `${p.start},${p.end},${p.value}`);
   return [header, ...rows].join("\n");
 }
 

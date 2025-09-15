@@ -31,7 +31,7 @@ normalizuoti hourly duomenis tolerantiškai (įskaitant EUR/MWh → EUR/kWh heur
 
 Pastabos
 
-Atsakymo laikas – UTC; konvertuojam į Europe/Vilnius (luxon).
+Visos datos pateikiamos ISO formatu Europe/Vilnius laiko zonoje (`start` / `end`).
 
 Vienetai iš ENTSO-E būna EUR/MWh – čia verčiam į EUR/kWh (÷1000).
 
