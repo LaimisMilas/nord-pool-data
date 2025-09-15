@@ -7,6 +7,18 @@ export function dayBoundsUtc(localDateISO, tz = TZ) {
   return { startUTC: startLocal.toUTC(), endUTC: endLocal.toUTC() };
 }
 
+export function todayUtcBounds(tz = TZ) {
+  const today = DateTime.now().setZone(tz).startOf("day");
+  const { startUTC, endUTC } = dayBoundsUtc(today.toISODate(), tz);
+  const fmt = "yyyyLLddHHmm";
+  return {
+    periodStart: startUTC.toFormat(fmt),
+    periodEnd: endUTC.toFormat(fmt),
+    startUTC,
+    endUTC
+  };
+}
+
 export function tomorrowUtcBounds(tz = TZ) {
   const tomorrow = DateTime.now().setZone(tz).plus({ days: 1 }).startOf("day");
   const { startUTC, endUTC } = dayBoundsUtc(tomorrow.toISODate(), tz);
