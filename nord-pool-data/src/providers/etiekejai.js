@@ -64,6 +64,13 @@ function normalize(js, tz = "Europe/Vilnius") {
   };
 }
 
+export async function fetchToday({ tz = "Europe/Vilnius" } = {}) {
+  const start = DateTime.now().setZone(tz).startOf("day");
+  const end = start.plus({ days: 1 });
+  const js = await fetchJson(start.toMillis(), end.toMillis());
+  return normalize(js, tz);
+}
+
 export async function fetchTomorrow({ tz = "Europe/Vilnius" } = {}) {
   const start = DateTime.now().setZone(tz).plus({ days: 1 }).startOf("day");
   const end = start.plus({ days: 1 });

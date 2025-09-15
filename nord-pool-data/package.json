@@ -7,6 +7,7 @@
   "scripts": {
     "tomorrow": "node src/index.js tomorrow --zone LT --format json",
     "next24h": "node src/index.js next24h --zone LT --format json",
+    "today": "node src/index.js today --zone LT --format json",
     "csv:tomorrow": "node src/index.js tomorrow --zone LT --format csv",
     "who": "node -e \"console.log(process.env.DATA_SOURCE||'entsoe')\""
   },

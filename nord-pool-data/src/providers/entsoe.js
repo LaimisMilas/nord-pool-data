@@ -1,6 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import { normalizeA44ToSeries, sliceRolling24h } from "../normalize.js";
-import { tomorrowUtcBounds, rolling24hUtcWindow } from "../time.js";
+import { todayUtcBounds, tomorrowUtcBounds, rolling24hUtcWindow } from "../time.js";
 
 async function fetchEntsoeA44({ token, eic, periodStart, periodEnd }) {
   const url = new URL("https://web-api.tp.entsoe.eu/api");
@@ -15,6 +15,12 @@ async function fetchEntsoeA44({ token, eic, periodStart, periodEnd }) {
   if (!res.ok) throw new Error(`ENTSO-E error ${res.status}: ${text.slice(0,200)}...`);
   const parser = new XMLParser({ ignoreAttributes: false });
   return parser.parse(text);
+}
+
+export async function fetchToday({ eic, token }) {
+  const { periodStart, periodEnd } = todayUtcBounds();
+  const js = await fetchEntsoeA44({ token, eic, periodStart, periodEnd });
+  return normalizeA44ToSeries(js, { eic });
 }
 
 export async function fetchTomorrow({ eic, token }) {

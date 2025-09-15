@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const argv = yargs(hideBin(process.argv))
+  .command("today", "Fetch today 00:00–24:00 (Europe/Vilnius)")
   .command("tomorrow", "Fetch tomorrow 00:00–24:00 (Europe/Vilnius)")
   .command("next24h", "Fetch rolling 24h from now")
   .option("zone",   { type: "string", default: "LT", describe: "Bidding zone (LT)" })
@@ -49,6 +50,17 @@ function toCSV(prices) {
   const header = "startLocal,endLocal,value_EUR_per_kWh";
   const rows = prices.map(p => `${p.startLocal},${p.endLocal},${p.value}`);
   return [header, ...rows].join("\n");
+}
+
+if (mode === "today") {
+  const payload = src === "entsoe"
+    ? await p.fetchToday({ eic, token })
+    : await p.fetchToday({ tz: "Europe/Vilnius" });
+  if (!payload) { console.error("No data returned."); process.exit(2); }
+  await saveDay(payload);
+  if (argv.format === "csv") console.log(toCSV(payload.prices));
+  else console.log(JSON.stringify(payload, null, 2));
+  process.exit(0);
 }
 
 if (mode === "tomorrow") {

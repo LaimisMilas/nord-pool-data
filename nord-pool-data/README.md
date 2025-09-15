@@ -10,6 +10,7 @@ Taip pat palaikomas neoficialus **Etiekėjai** JSON endpointas.
 ```bash
 cp .env.example .env  # įrašyk ENTSOE_TOKEN
 npm i
+npm run today         # šiandienos 24h (JSON)
 npm run tomorrow      # rytojaus 24h (JSON)
 npm run next24h       # "rolling" 24h nuo dabar (JSON)
 ```
